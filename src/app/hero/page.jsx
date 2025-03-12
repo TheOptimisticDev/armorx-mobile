@@ -79,7 +79,7 @@ function MainComponent() {
       <div className="fixed top-0 left-0 w-full bg-white shadow-lg z-50">
         <div className="flex justify-between items-center p-4">
           <div className="flex items-center">
-            <i className="fas fa-shield-alt text-2xl text-blue-600"></i>
+            <i className="fas fa-shield-alt text-5xl text-gray-600"></i>
             <h1 className="text-xl font-bold ml-2">ArmorX</h1>
           </div>
           <button
@@ -101,14 +101,6 @@ function MainComponent() {
       <i className="fas fa-walking mr-2"></i> Patrols
     </button>
 
-    {/* Alerts */}
-    <button
-      onClick={() => setActiveTab("alerts")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-    >
-      <i className="fas fa-bell mr-2"></i> Alerts
-    </button>
-
     {/* Incidents */}
     <button
       onClick={() => setActiveTab("incidents")}
@@ -123,22 +115,6 @@ function MainComponent() {
       className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
     >
       <i className="fas fa-file-alt mr-2"></i> Reports
-    </button>
-
-    {/* Cameras */}
-    <button
-      onClick={() => setActiveTab("cameras")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-    >
-      <i className="fas fa-video mr-2"></i> Cameras
-    </button>
-
-    {/* Access Logs */}
-    <button
-      onClick={() => setActiveTab("access-logs")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-    >
-      <i className="fas fa-door-open mr-2"></i> Access Logs
     </button>
 
     {/* Profile */}
@@ -248,7 +224,6 @@ function MainComponent() {
         )}
       </div>
 
-      {activeTab === "map" && <MapComponent />}
       {activeTab === "incidents" && <IncidentsComponent />}
       {activeTab === "reports" && <ReportsComponent />}
       {activeTab === "settings" && <SettingsComponent />}
@@ -308,7 +283,7 @@ function MainComponent() {
               activeTab === "alerts" ? "text-gray-600" : "text-gray-600"
             }`}
           >
-            <i className="fas fa-bell text-xl"></i>
+            <i className="fas fa-exclamation-circle text-xl"></i>
             <span className="text-xs">Alerts</span>
           </button>
           <button
