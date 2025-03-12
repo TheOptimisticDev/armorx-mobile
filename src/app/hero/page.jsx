@@ -3,11 +3,14 @@ import React, { useState, useEffect } from "react";
 import { useUser } from '@auth0/nextjs-auth0';
 
 function MainComponent() {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const [activeTab, setActiveTab] = useState("map");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const [alert, setAlert] = useState(true);
+  const [incidents, setIncidents] = useState([]);
+  const [liveCameras, setLiveCameras] = useState([]);
+  const [accessLogs, setAccessLogs] = useState([]);
+  const [isOffline, setIsOffline] = useState(false);
 
   // Dummy data for notifications
   const [notification, setNotification] = useState({
@@ -30,12 +33,44 @@ function MainComponent() {
     alert("Panic button pressed! Emergency services have been notified.");
   };
 
-  // Fetch initial data for the Hero Section
+  // Report a new incident
+  const handleReportIncident = () => {
+    const newIncident = {
+      id: incidents.length + 1,
+      type: "Unauthorized Access",
+      location: "Main Gate",
+      timestamp: new Date().toLocaleString(),
+      status: "Active",
+    };
+    setIncidents([...incidents, newIncident]);
+    alert("Incident reported successfully!");
+  };
+
+  // Fetch initial data for the app
   useEffect(() => {
     if (!user) return;
 
-    // Fetch data logic here (if needed)
+    // Simulate fetching live camera feeds
+    setLiveCameras([
+      { id: 1, name: "Camera A", location: "Main Gate" },
+      { id: 2, name: "Camera B", location: "Parking Lot" },
+    ]);
+
+    // Simulate fetching access logs
+    setAccessLogs([
+      { id: 1, user: "John Doe", action: "Login", timestamp: "2025-03-07T08:15:00Z" },
+      { id: 2, user: "Jane Smith", action: "Logout", timestamp: "2025-03-07T09:00:00Z" },
+    ]);
+
+    // Check offline status
+    setIsOffline(!navigator.onLine);
+    window.addEventListener("online", () => setIsOffline(false));
+    window.addEventListener("offline", () => setIsOffline(true));
   }, [user]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col h-screen font-roboto bg-gray-100">
@@ -56,35 +91,91 @@ function MainComponent() {
         </div>
 
         {/* Dropdown Menu */}
-        {showDropdown && (
-          <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg p-2">
-            <button
-              onClick={() => setActiveTab("map")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <i className="fas fa-map-marker-alt mr-2"></i> Map
-            </button>
-            <button
-              onClick={() => setActiveTab("alerts")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <i className="fas fa-bell mr-2"></i> Alerts
-            </button>
-            <button
-              onClick={() => setActiveTab("profile")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <i className="fas fa-user mr-2"></i> Profile
-            </button>
-            <hr className="my-2" />
-            <button
-              onClick={() => alert("Signing out...")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg text-red-600"
-            >
-              <i className="fas fa-sign-out-alt mr-2"></i> Sign Out
-            </button>
-          </div>
-        )}
+{showDropdown && (
+  <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg p-2">
+    {/* Patrols */}
+    <button
+      onClick={() => setActiveTab("map")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+    >
+      <i className="fas fa-walking mr-2"></i> Patrols
+    </button>
+
+    {/* Alerts */}
+    <button
+      onClick={() => setActiveTab("alerts")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+    >
+      <i className="fas fa-bell mr-2"></i> Alerts
+    </button>
+
+    {/* Incidents */}
+    <button
+      onClick={() => setActiveTab("incidents")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+    >
+      <i className="fas fa-exclamation-triangle mr-2"></i> Incidents
+    </button>
+
+    {/* Reports */}
+    <button
+      onClick={() => setActiveTab("reports")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+    >
+      <i className="fas fa-file-alt mr-2"></i> Reports
+    </button>
+
+    {/* Cameras */}
+    <button
+      onClick={() => setActiveTab("cameras")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+    >
+      <i className="fas fa-video mr-2"></i> Cameras
+    </button>
+
+    {/* Access Logs */}
+    <button
+      onClick={() => setActiveTab("access-logs")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+    >
+      <i className="fas fa-door-open mr-2"></i> Access Logs
+    </button>
+
+    {/* Profile */}
+    <button
+      onClick={() => setActiveTab("profile")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+    >
+      <i className="fas fa-user mr-2"></i> Profile
+    </button>
+
+    {/* Settings */}
+    <button
+      onClick={() => setActiveTab("settings")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+    >
+      <i className="fas fa-cog mr-2"></i> Settings
+    </button>
+
+    {/* Support */}
+    <button
+      onClick={() => setActiveTab("support")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+    >
+      <i className="fas fa-headset mr-2"></i> Support
+    </button>
+
+    <hr className="my-2" />
+
+    {/* Sign Out */}
+    <button
+      onClick={() => alert("Signing out...")}
+      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg text-red-600"
+    >
+      <i className="fas fa-sign-out-alt mr-2"></i> Sign Out
+    </button>
+  </div>
+)}
       </div>
 
       {/* Hero Section */}
@@ -93,7 +184,11 @@ function MainComponent() {
           <div className="h-full">
             {/* Map Container */}
             <div className="h-full bg-gray-300 flex items-center justify-center">
-              <p className="text-gray-600">Map will be displayed here</p>
+            <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBBJbV0x-oxHgi3ryNwlOoadiy86dnB2a9fA&s"
+                alt="Map Placeholder"
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* Push-to-Talk and Panic Buttons */}
@@ -153,6 +248,12 @@ function MainComponent() {
         )}
       </div>
 
+      {activeTab === "map" && <MapComponent />}
+      {activeTab === "incidents" && <IncidentsComponent />}
+      {activeTab === "reports" && <ReportsComponent />}
+      {activeTab === "settings" && <SettingsComponent />}
+      {activeTab === "support" && <SupportComponent />}
+
       {/* Popup for Notifications */}
       {showPopup && alert && (
         <div
@@ -195,7 +296,7 @@ function MainComponent() {
           <button
             onClick={() => setActiveTab("map")}
             className={`flex flex-col items-center p-2 ${
-              activeTab === "map" ? "text-blue-600" : "text-gray-600"
+              activeTab === "map" ? "text-gray-600" : "text-gray-600"
             }`}
           >
             <i className="fas fa-home text-xl"></i>
@@ -204,7 +305,7 @@ function MainComponent() {
           <button
             onClick={() => setActiveTab("alerts")}
             className={`flex flex-col items-center p-2 ${
-              activeTab === "alerts" ? "text-blue-600" : "text-gray-600"
+              activeTab === "alerts" ? "text-gray-600" : "text-gray-600"
             }`}
           >
             <i className="fas fa-bell text-xl"></i>
@@ -213,7 +314,16 @@ function MainComponent() {
           <button
             onClick={() => setActiveTab("profile")}
             className={`flex flex-col items-center p-2 ${
-              activeTab === "profile" ? "text-blue-600" : "text-gray-600"
+              activeTab === "profile" ? "text-gray-600" : "text-gray-600"
+            }`}
+          >
+            <i className="fas fa-envelope text-xl"></i>
+            <span className="text-xs">Inbox</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("profile")}
+            className={`flex flex-col items-center p-2 ${
+              activeTab === "profile" ? "text-gray-600" : "text-gray-600"
             }`}
           >
             <i className="fas fa-user text-xl"></i>
