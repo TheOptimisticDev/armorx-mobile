@@ -88,11 +88,11 @@ function MainComponent() {
       </div>
 
       {/* Hero Section */}
-      <div className="flex-1 overflow-auto p-4 relative mt-16">
+      <div className="flex-1 overflow-auto relative mt-16 mb-16">
         {activeTab === "map" && (
           <div className="h-full">
             {/* Map Container */}
-            <div className="h-64 bg-gray-300 rounded-lg flex items-center justify-center">
+            <div className="h-full bg-gray-300 flex items-center justify-center">
               <p className="text-gray-600">Map will be displayed here</p>
             </div>
 
@@ -115,7 +115,7 @@ function MainComponent() {
         )}
 
         {activeTab === "alerts" && (
-          <div className="space-y-4">
+          <div className="space-y-4 p-4">
             <h2 className="text-xl font-semibold">Security Alerts</h2>
             <div className="bg-white p-4 rounded-lg shadow-sm">
               <h3 className="font-medium">{notification.title}</h3>
@@ -131,7 +131,7 @@ function MainComponent() {
         )}
 
         {activeTab === "profile" && (
-          <div className="space-y-4">
+          <div className="space-y-4 p-4">
             <h2 className="text-xl font-semibold">Profile</h2>
             <div className="bg-white p-4 rounded-lg shadow-sm">
               <div className="flex items-center space-x-4">
@@ -198,8 +198,8 @@ function MainComponent() {
               activeTab === "map" ? "text-blue-600" : "text-gray-600"
             }`}
           >
-            <i className="fas fa-map text-xl"></i>
-            <span className="text-xs">Map</span>
+            <i className="fas fa-home text-xl"></i>
+            <span className="text-xs">Home</span>
           </button>
           <button
             onClick={() => setActiveTab("alerts")}
