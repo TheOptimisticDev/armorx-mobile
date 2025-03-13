@@ -78,10 +78,16 @@ function MainComponent() {
       {/* Top Navigation Bar */}
       <div className="fixed top-0 left-0 w-full bg-white shadow-lg z-50">
         <div className="flex justify-between items-center p-4">
-          <div className="flex items-center">
-            <i className="fas fa-shield-alt text-5xl text-gray-600"></i>
-            <h1 className="text-xl font-bold ml-2">ArmorX</h1>
-          </div>
+          <a href="/" className="flex items-center space-x-2">
+            <img
+              src="https://raw.githubusercontent.com/TheOptimisticDev/images/refs/heads/main/IMG_1608.jpeg?token=GHSAT0AAAAAAC7OCUUPQSYT3LS4VHRKETLAZ6SYKRQ"
+              alt="logo"
+              className="w-11 h-11 object-cover"
+            />
+            <div>
+              <h1 className="text-2xl font-bold">ArmorX</h1>
+            </div>
+          </a>
           <button
             onClick={() => setShowDropdown(!showDropdown)}
             className="text-gray-600 focus:outline-none"
@@ -91,67 +97,71 @@ function MainComponent() {
         </div>
 
         {/* Dropdown Menu */}
-{showDropdown && (
-  <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg p-2">
-    {/* Patrols */}
-    <button
-      onClick={() => setActiveTab("map")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-    >
-      <i className="fas fa-walking mr-2"></i> Patrols
-    </button>
+        {showDropdown && (
+          <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg p-2">
+            <p className="flex items-center justify-center text-xl my-4">
+              Menu
+            </p>
 
-    {/* Incidents */}
-    <button
-      onClick={() => setActiveTab("incidents")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-    >
-      <i className="fas fa-exclamation-triangle mr-2"></i> Incidents
-    </button>
+            {/* Incidents */}
+            <button
+              onClick={() => setActiveTab("incidents")}
+              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+            >
+              <i className="fas fa-exclamation-triangle mr-2"></i> Incidents
+            </button>
 
-    {/* Reports */}
-    <button
-      onClick={() => setActiveTab("reports")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-    >
-      <i className="fas fa-file-alt mr-2"></i> Reports
-    </button>
+            {/* Patrols */}
+            <button
+              onClick={() => setActiveTab("map")}
+              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+            >
+              <i className="fas fa-walking mr-2"></i> Inspections
+            </button>
 
-    {/* Profile */}
-    <button
-      onClick={() => setActiveTab("profile")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-    >
-      <i className="fas fa-user mr-2"></i> Profile
-    </button>
+            {/* Reports */}
+            <button
+              onClick={() => setActiveTab("reports")}
+              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+            >
+              <i className="fas fa-file-alt mr-2"></i> Reports
+            </button>
 
-    {/* Settings */}
-    <button
-      onClick={() => setActiveTab("settings")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-    >
-      <i className="fas fa-cog mr-2"></i> Settings
-    </button>
+            {/* Profile */}
+            <button
+              onClick={() => setActiveTab("profile")}
+              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+            >
+              <i className="fas fa-user mr-2"></i> Profile
+            </button>
 
-    {/* Support */}
-    <button
-      onClick={() => setActiveTab("support")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-    >
-      <i className="fas fa-headset mr-2"></i> Support
-    </button>
+            {/* Settings */}
+            <button
+              onClick={() => setActiveTab("settings")}
+              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+            >
+              <i className="fas fa-cog mr-2"></i> Settings
+            </button>
 
-    <hr className="my-2" />
+            {/* Support */}
+            <button
+              onClick={() => setActiveTab("support")}
+              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+            >
+              <i className="fas fa-headset mr-2"></i> Support
+            </button>
 
-    {/* Sign Out */}
-    <button
-      onClick={() => alert("Signing out...")}
-      className="w-full text-left p-2 hover:bg-gray-100 rounded-lg text-red-600"
-    >
-      <i className="fas fa-sign-out-alt mr-2"></i> Sign Out
-    </button>
-  </div>
-)}
+            <hr className="my-2" />
+
+            {/* Sign Out */}
+            <button
+              onClick={() => alert("Signing out...")}
+              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg text-red-600"
+            >
+              <i className="fas fa-sign-out-alt mr-2"></i> Sign Out
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Hero Section */}
