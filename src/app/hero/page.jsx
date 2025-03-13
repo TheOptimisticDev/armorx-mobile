@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useUser } from '@auth0/nextjs-auth0';
 
 function MainComponent() {
@@ -11,6 +11,27 @@ function MainComponent() {
   const [liveCameras, setLiveCameras] = useState([]);
   const [accessLogs, setAccessLogs] = useState([]);
   const [isOffline, setIsOffline] = useState(false);
+
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    // Attach event listener when dropdown is open
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup listener on unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
 
   // Dummy data for notifications
   const [notification, setNotification] = useState({
@@ -49,13 +70,7 @@ function MainComponent() {
   // Fetch initial data for the app
   useEffect(() => {
     if (!user) return;
-
-    // Simulate fetching live camera feeds
-    setLiveCameras([
-      { id: 1, name: "Camera A", location: "Main Gate" },
-      { id: 2, name: "Camera B", location: "Parking Lot" },
-    ]);
-
+    
     // Simulate fetching access logs
     setAccessLogs([
       { id: 1, user: "John Doe", action: "Login", timestamp: "2025-03-07T08:15:00Z" },
@@ -80,7 +95,7 @@ function MainComponent() {
         <div className="flex justify-between items-center p-4">
           <a href="/" className="flex items-center space-x-2">
             <img
-              src="https://raw.githubusercontent.com/TheOptimisticDev/images/refs/heads/main/IMG_1608.jpeg?token=GHSAT0AAAAAAC7OCUUPQSYT3LS4VHRKETLAZ6SYKRQ"
+              src="https://raw.githubusercontent.com/TheOptimisticDev/images/refs/heads/main/IMG_1608.jpeg?token=GHSAT0AAAAAAC7OCUUPLMXINMVSFLYT3RNCZ6S5UWA"
               alt="logo"
               className="w-11 h-11 object-cover"
             />
@@ -89,7 +104,7 @@ function MainComponent() {
             </div>
           </a>
           <button
-            onClick={() => setShowDropdown(!showDropdown)}
+            onClick={() => setShowDropdown((prev) => !prev)}
             className="text-gray-600 focus:outline-none"
           >
             <i className="fas fa-bars text-2xl"></i>
@@ -98,70 +113,76 @@ function MainComponent() {
 
         {/* Dropdown Menu */}
         {showDropdown && (
-          <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg p-2">
-            <p className="flex items-center justify-center text-xl my-4">
-              Menu
-            </p>
+        <div ref={dropdownRef} className="absolute right-0 mt-2 mr-2 w-56 bg-white border rounded-lg shadow-lg p-2">
+          <p className="flex items-center justify-center text-xl my-4">
+            Menu  
+          </p>
+          <button
+            onClick={() => setShowDropdown(false)}
+            className="absolute top-5 right-5 text-gray-600 hover:text-black"
+          >
+            <i className="fas fa-times"></i>
+          </button>
 
-            {/* Incidents */}
-            <button
-              onClick={() => setActiveTab("incidents")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <i className="fas fa-exclamation-triangle mr-2"></i> Incidents
-            </button>
+          {/* Incidents */}
+          <button
+            onClick={() => setShowDropdown(false)}
+            className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <i className="fas fa-exclamation-triangle mr-2"></i> Incidents
+          </button>
 
-            {/* Patrols */}
-            <button
-              onClick={() => setActiveTab("map")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <i className="fas fa-walking mr-2"></i> Inspections
-            </button>
+          {/* Inspections */}
+          <button
+            onClick={() => setShowDropdown(false)}
+            className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <i className="fas fa-walking mr-2"></i> Inspections
+          </button>
 
-            {/* Reports */}
-            <button
-              onClick={() => setActiveTab("reports")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <i className="fas fa-file-alt mr-2"></i> Reports
-            </button>
+          {/* Reports */}
+          <button
+            onClick={() => setShowDropdown(false)}
+            className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <i className="fas fa-file-alt mr-2"></i> Reports
+          </button>
 
-            {/* Profile */}
-            <button
-              onClick={() => setActiveTab("profile")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <i className="fas fa-user mr-2"></i> Profile
-            </button>
+          {/* Profile */}
+          <button
+            onClick={() => setShowDropdown(false)}
+            className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <i className="fas fa-user mr-2"></i> Profile
+          </button>
 
-            {/* Settings */}
-            <button
-              onClick={() => setActiveTab("settings")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <i className="fas fa-cog mr-2"></i> Settings
-            </button>
+          {/* Settings */}
+          <button
+            onClick={() => setShowDropdown(false)}
+            className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <i className="fas fa-cog mr-2"></i> Settings
+          </button>
 
-            {/* Support */}
-            <button
-              onClick={() => setActiveTab("support")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <i className="fas fa-headset mr-2"></i> Support
-            </button>
+          {/* Support */}
+          <button
+            onClick={() => setShowDropdown(false)}
+            className="w-full text-left p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <i className="fas fa-headset mr-2"></i> Support
+          </button>
 
-            <hr className="my-2" />
+          <hr className="my-2" />
 
-            {/* Sign Out */}
-            <button
-              onClick={() => alert("Signing out...")}
-              className="w-full text-left p-2 hover:bg-gray-100 rounded-lg text-red-600"
-            >
-              <i className="fas fa-sign-out-alt mr-2"></i> Sign Out
-            </button>
-          </div>
-        )}
+          {/* Sign Out */}
+          <button
+            onClick={() => alert("Signing out...")}
+            className="w-full text-left p-2 hover:bg-gray-100 rounded-lg text-red-600"
+          >
+            <i className="fas fa-sign-out-alt mr-2"></i> Sign Out
+          </button>
+        </div>
+      )}
       </div>
 
       {/* Hero Section */}
@@ -178,7 +199,7 @@ function MainComponent() {
             </div>
 
             {/* Push-to-Talk and Panic Buttons */}
-            <div className="absolute bottom-20 right-4 space-y-2">
+            <div className="absolute bottom-20 right-5 space-y-2">
               <button
                 onClick={handlePushToTalk}
                 className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition"
