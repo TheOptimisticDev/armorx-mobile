@@ -219,13 +219,22 @@ function MainComponent() {
       {/* Main Content */}
       <div className="flex-1 overflow-auto relative mt-16 mb-16">
         {activeTab === "map" && (
-          <div className="h-full">
-            <MapComponent />
-            <div className="absolute bottom-20 right-5 space-y-2">
-              <button onClick={handlePushToTalk} className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition">
+          <div className="h-full relative">
+            <div className="absolute inset-0 z-0">
+              <MapComponent />
+            </div>
+
+            <div className="absolute bottom-20 right-5 space-y-2 z-10">
+              <button
+                onClick={handlePushToTalk}
+                className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition"
+              >
                 <i className="fas fa-microphone text-xl"></i>
               </button>
-              <button onClick={handlePanicButton} className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition">
+              <button
+                onClick={handlePanicButton}
+                className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition"
+              >
                 <i className="fas fa-exclamation-triangle text-xl"></i>
               </button>
             </div>
