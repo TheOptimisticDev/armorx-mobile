@@ -26,7 +26,7 @@ const MapComponent = () => {
         (position) => {
           const { latitude, longitude } = position.coords;
           mapInstance.current.setView([latitude, longitude], 13);
-          
+
         },
         (error) => {
           console.error("Error getting location:", error);
@@ -182,15 +182,16 @@ function MainComponent() {
     <div className="flex flex-col h-screen font-roboto bg-gray-100">
       {/* Top Navigation */}
       <div className="fixed top-0 left-0 w-full bg-white shadow-lg z-50">
-        <div className="flex justify-between items-center p-4">
-          <a href="/" className="flex items-center space-x-2">
-            <img
-              src="https://raw.githubusercontent.com/TheOptimisticDev/images/refs/heads/main/IMG_1608.jpeg?token=GHSAT0AAAAAAC7OCUUPLMXINMVSFLYT3RNCZ6S5UWA"
-              alt="logo"
-              className="w-11 h-11 object-cover"
-            />
-            <h1 className="text-2xl font-bold">ArmorX</h1>
-          </a>
+        <div className="flex justify-between items-center p-3"> {/* Adjusted padding to p-3 */}
+        {/* Logo and Brand Name */}
+        <a href="/" className="flex items-center space-x-2">
+          <img
+            src="https://raw.githubusercontent.com/TheOptimisticDev/images/refs/heads/main/IMG_1608.jpeg?token=GHSAT0AAAAAAC7OCUUOP654XZ5DKAAVEMA6Z6V44RQ"
+            alt="logo"
+            className="w-9 h-10 object-cover"
+          />
+          <h1 className="text-3xl font-bold">ArmorX</h1>
+        </a>
           <button
             onClick={() => setShowDropdown((prev) => !prev)}
             className="text-gray-600 focus:outline-none"
@@ -212,17 +213,11 @@ function MainComponent() {
             <button onClick={() => setActiveTab("patrols")} className="w-full text-left p-2 hover:bg-gray-100 rounded-lg">
               <i className="fas fa-map-marker-alt mr-2"></i> Patrols
             </button>
-            <button onClick={() => setActiveTab("reports")} className="w-full text-left p-2 hover:bg-gray-100 rounded-lg">
-              <i className="fas fa-file-alt mr-2"></i> Reports
-            </button>
-            <button onClick={() => setActiveTab("cameras")} className="w-full text-left p-2 hover:bg-gray-100 rounded-lg">
-              <i className="fas fa-video mr-2"></i> Cameras
-            </button>
             <button onClick={() => setActiveTab("access-control")} className="w-full text-left p-2 hover:bg-gray-100 rounded-lg">
-              <i className="fas fa-key mr-2"></i> Access Control
+              <i className="fas fa-key mr-2"></i> Access
             </button>
             <button onClick={() => setActiveTab("emergency-contacts")} className="w-full text-left p-2 hover:bg-gray-100 rounded-lg">
-              <i className="fas fa-phone-alt mr-2"></i> Emergency Contacts
+              <i className="fas fa-phone-alt mr-2"></i> Contacts
             </button>
             <button onClick={() => setActiveTab("settings")} className="w-full text-left p-2 hover:bg-gray-100 rounded-lg">
               <i className="fas fa-cog mr-2"></i> Settings
