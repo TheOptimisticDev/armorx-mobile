@@ -25,13 +25,8 @@ const MapComponent = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          mapInstance.current.setView([latitude, longitude], 13); // Set map view to user's location
-
-          // Add a marker at the user's location
-          L.marker([latitude, longitude])
-            .addTo(mapInstance.current)
-            .bindPopup("You are here!")
-            .openPopup();
+          mapInstance.current.setView([latitude, longitude], 13);
+          
         },
         (error) => {
           console.error("Error getting location:", error);
@@ -84,56 +79,21 @@ function MainComponent() {
     },
   ]);
   const [newMessage, setNewMessage] = useState("");
-
   const dropdownRef = useRef(null);
 
   const [isRecording, setIsRecording] = useState(false);
-  const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [audioChunks, setAudioChunks] = useState([]);
-
-  // Initialize media recorder
-  useEffect(() => {
-    const initializeMediaRecorder = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const recorder = new MediaRecorder(stream);
-        setMediaRecorder(recorder);
-
-        recorder.ondataavailable = (event) => {
-          setAudioChunks((prev) => [...prev, event.data]);
-        };
-
-        recorder.onstop = () => {
-          const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-          const audioUrl = URL.createObjectURL(audioBlob);
-          console.log("Audio recorded:", audioUrl); // You can upload or play the audio here
-          setAudioChunks([]); // Reset chunks for the next recording
-        };
-      } catch (error) {
-        console.error("Error accessing microphone:", error);
-        alert("Microphone access denied. Please allow access to use Push-to-Talk.");
-      }
-    };
-
-    initializeMediaRecorder();
-  }, []);
 
   // Handle Push-to-Talk button press
   const handlePushToTalk = () => {
-    if (mediaRecorder && mediaRecorder.state === "inactive") {
-      mediaRecorder.start();
-      setIsRecording(true);
-      console.log("Recording started...");
-    }
+    setIsRecording(true);
+    console.log("Recording started...");
   };
 
   // Handle Push-to-Talk button release
   const handlePushToTalkRelease = () => {
-    if (mediaRecorder && mediaRecorder.state === "recording") {
-      mediaRecorder.stop();
-      setIsRecording(false);
-      console.log("Recording stopped.");
-    }
+    setIsRecording(false);
+    setShowPopup(true); // Show popup when recording stops
+    console.log("Recording stopped.");
   };
 
   // Close dropdown when clicking outside
@@ -174,11 +134,24 @@ function MainComponent() {
     window.addEventListener("offline", () => setIsOffline(true));
   }, [user]);
 
- 
+  const [showPanicPopup, setShowPanicPopup] = useState(false);
+  const [showPushToTalkPopup, setShowPushToTalkPopup] = useState(false);
 
   // Handle panic button
   const handlePanicButton = () => {
-    alert("Panic button pressed! Emergency services have been notified.");
+    // Simulate sending panic alert with location
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        console.log("Panic alert sent with location:", { latitude, longitude });
+        setShowPanicPopup(true); // Show popup
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+        alert("Unable to retrieve your location. Panic alert sent without location.");
+        setShowPanicPopup(true); // Show popup even if location is unavailable
+      }
+    );
   };
 
   // Send message
@@ -287,6 +260,67 @@ function MainComponent() {
                 className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition"
               >
                 <i className="fas fa-exclamation-triangle text-xl"></i>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {showPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-12 rounded-lg shadow-lg text-center w-80 relative">
+              {/* Close button in the top-right corner */}
+              <button
+                onClick={() => setShowPopup(false)}
+                className="absolute top-2 right-4 text-gray-500 hover:text-gray-700 transition"
+              >
+                <i className="fas fa-times text-xl"></i>
+              </button>
+        
+              {/* Pulse border and exclamation mark icon */}
+              <div className="relative flex items-center justify-center mb-4">
+                <div className="absolute w-16 h-16 bg-blue-100 rounded-full animate-ping"></div>
+                <div className="relative w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                  <i className="fas fa-exclamation text-white text-2xl"></i>
+                </div>
+              </div>
+        
+              {/* Text below the icon */}
+                <p className="text-gray-600 mb-4">Start talking</p>
+            </div>
+          </div>
+        )}
+
+      {showPushToTalkPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center w-80">
+            <i className="fas fa-microphone text-4xl text-blue-600 mb-4"></i>
+            <h2 className="text-xl font-semibold mb-2">Recording Sent!</h2>
+            <p className="text-gray-600 mb-4">
+              Your audio recording has been sent to the control room.
+            </p>
+            <button
+              onClick={() => setShowPushToTalkPopup(false)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+
+        {showPanicPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg text-center w-80">
+              <i className="fas fa-exclamation-triangle text-6xl text-red-600 mb-4"></i>
+              <h2 className="text-xl font-semibold mb-2">Panic Alert Sent!</h2>
+                <p className="text-gray-600 mb-4">
+                  Your panic alert has been sent to the control room with your current location.
+                </p>
+              <button
+                onClick={() => setShowPanicPopup(false)}
+                className="bg-blue-600 px-12 py-3 text-white rounded-lg hover:bg-blue-700 transition"
+              >
+                OK
               </button>
             </div>
           </div>
