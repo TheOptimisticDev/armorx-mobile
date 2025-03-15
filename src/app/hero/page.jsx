@@ -87,6 +87,55 @@ function MainComponent() {
 
   const dropdownRef = useRef(null);
 
+  const [isRecording, setIsRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [audioChunks, setAudioChunks] = useState([]);
+
+  // Initialize media recorder
+  useEffect(() => {
+    const initializeMediaRecorder = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const recorder = new MediaRecorder(stream);
+        setMediaRecorder(recorder);
+
+        recorder.ondataavailable = (event) => {
+          setAudioChunks((prev) => [...prev, event.data]);
+        };
+
+        recorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          console.log("Audio recorded:", audioUrl); // You can upload or play the audio here
+          setAudioChunks([]); // Reset chunks for the next recording
+        };
+      } catch (error) {
+        console.error("Error accessing microphone:", error);
+        alert("Microphone access denied. Please allow access to use Push-to-Talk.");
+      }
+    };
+
+    initializeMediaRecorder();
+  }, []);
+
+  // Handle Push-to-Talk button press
+  const handlePushToTalk = () => {
+    if (mediaRecorder && mediaRecorder.state === "inactive") {
+      mediaRecorder.start();
+      setIsRecording(true);
+      console.log("Recording started...");
+    }
+  };
+
+  // Handle Push-to-Talk button release
+  const handlePushToTalkRelease = () => {
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+      mediaRecorder.stop();
+      setIsRecording(false);
+      console.log("Recording stopped.");
+    }
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -125,10 +174,7 @@ function MainComponent() {
     window.addEventListener("offline", () => setIsOffline(true));
   }, [user]);
 
-  // Handle push-to-talk
-  const handlePushToTalk = () => {
-    alert("Push-to-talk activated. Speak now.");
-  };
+ 
 
   // Handle panic button
   const handlePanicButton = () => {
@@ -226,8 +272,13 @@ function MainComponent() {
 
             <div className="absolute bottom-20 right-5 space-y-2 z-10">
               <button
-                onClick={handlePushToTalk}
-                className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition"
+                onMouseDown={handlePushToTalk} 
+                onMouseUp={handlePushToTalkRelease}
+                onTouchStart={handlePushToTalk}
+                onTouchEnd={handlePushToTalkRelease}
+                className={`w-12 h-12 ${
+                  isRecording ? "bg-blue-700" : "bg-blue-600"
+                } text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition`}
               >
                 <i className="fas fa-microphone text-xl"></i>
               </button>
