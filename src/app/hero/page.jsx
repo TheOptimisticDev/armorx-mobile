@@ -385,6 +385,8 @@ function MainComponent() {
   const [showPanicPopup, setShowPanicPopup] = useState(false);
   const [showPushToTalkPopup, setShowPushToTalkPopup] = useState(false);
 
+  
+
   // Handle panic button
   const handlePanicButton = () => {
     // Simulate sending panic alert with location
@@ -436,7 +438,7 @@ function MainComponent() {
             <img
               src="https://i.imgur.com/yJVTPfj.png"
               alt="logo"
-              className="w-8 h-9 object-cover"
+              className="w-8 h-15 object-cover"
             />
             <h1 className="text-3xl font-bold">ArmorX</h1>
           </a>
@@ -451,7 +453,7 @@ function MainComponent() {
         {/* Dropdown Menu */}
         {showDropdown && (
           <div ref={dropdownRef} className="absolute right-0 mt-2 mr-2 w-56 bg-white border rounded-lg shadow-lg p-2">
-            <p className="flex items-center justify-center text-xl my-4">Menu</p>
+            <p className="flex items-center justify-center text-xl my-3">Menu</p>
             <button onClick={() => setActiveTab("incidents")} className="w-full text-left p-2 hover:bg-gray-100 rounded-lg">
               <i className="fas fa-exclamation-triangle mr-2"></i> Incidents
             </button>
@@ -494,13 +496,13 @@ function MainComponent() {
                 onTouchEnd={handlePushToTalkRelease}
                 className={`w-12 h-12 ${
                   isRecording ? "bg-blue-700" : "bg-blue-600"
-                } text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition`}
+                } text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-900 transition`}
               >
                 <i className="fas fa-microphone text-xl"></i>
               </button>
               <button
                 onClick={handlePanicButton}
-                className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition"
+                className="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-red-900 transition"
               >
                 <i className="fas fa-exclamation-triangle text-xl"></i>
               </button>
@@ -579,7 +581,7 @@ function MainComponent() {
                   type: "Suspicious Login Attempt",
                   description: "A login attempt was detected from an unrecognized device in New York, USA.",
                   time: "2 minutes ago",
-                  severity: "High",
+                  severity: "Critical",
                 },
                 {
                   id: 2,
@@ -896,7 +898,6 @@ function MainComponent() {
                 </button>
               </div>
     </div>
-    
 
     <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-white">
       {incidents.map((incident) => (
@@ -1048,10 +1049,10 @@ function MainComponent() {
               {log.action}
             </div>
             <div className="flex space-x-2 mt-1">
-              <button className="text-xs text-blue-500 hover:text-blue-600">
+              <button className="text-xs">
                 <i className="fas fa-eye"></i> View
               </button>
-              <button className="text-xs text-red-500 hover:text-red-600">
+              <button className="text-xs">
                 <i className="fas fa-ban"></i> Revoke Access
               </button>
             </div>
@@ -1109,22 +1110,67 @@ function MainComponent() {
     </div>
 
     <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-white">
+      {/* Notifications */}
       <div className="flex items-center justify-between p-2">
         <span className="text-sm text-gray-700">Notifications</span>
         <button className="text-sm text-blue-600 hover:text-blue-700">
           <i className="fas fa-bell"></i> Manage
         </button>
       </div>
+
+      {/* Privacy */}
       <div className="flex items-center justify-between p-2">
         <span className="text-sm text-gray-700">Privacy</span>
         <button className="text-sm text-blue-600 hover:text-blue-700">
           <i className="fas fa-lock"></i> Manage
         </button>
       </div>
+
+      {/* Account */}
       <div className="flex items-center justify-between p-2">
         <span className="text-sm text-gray-700">Account</span>
         <button className="text-sm text-blue-600 hover:text-blue-700">
           <i className="fas fa-user"></i> Manage
+        </button>
+      </div>
+
+      {/* Theme */}
+      <div className="flex items-center justify-between p-2">
+        <span className="text-sm text-gray-700">Theme</span>
+        <button className="text-sm text-blue-600 hover:text-blue-700">
+          <i className="fas fa-palette"></i> Change
+        </button>
+      </div>
+
+      {/* Language */}
+      <div className="flex items-center justify-between p-2">
+        <span className="text-sm text-gray-700">Language</span>
+        <button className="text-sm text-blue-600 hover:text-blue-700">
+          <i className="fas fa-globe"></i> Change
+        </button>
+      </div>
+
+      {/* Security */}
+      <div className="flex items-center justify-between p-2">
+        <span className="text-sm text-gray-700">Security</span>
+        <button className="text-sm text-blue-600 hover:text-blue-700">
+          <i className="fas fa-shield-alt"></i> Manage
+        </button>
+      </div>
+
+      {/* Data Usage */}
+      <div className="flex items-center justify-between p-2">
+        <span className="text-sm text-gray-700">Data Usage</span>
+        <button className="text-sm text-blue-600 hover:text-blue-700">
+          <i className="fas fa-database"></i> Details
+        </button>
+      </div>
+
+      {/* Help & Support */}
+      <div className="flex items-center justify-between p-2">
+        <span className="text-sm text-gray-700">Help & Support</span>
+        <button className="text-sm text-blue-600 hover:text-blue-700">
+          <i className="fas fa-question-circle"></i> Get Help
         </button>
       </div>
     </div>
