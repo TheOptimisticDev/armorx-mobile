@@ -433,41 +433,67 @@ function MainComponent() {
     </div>
   )}
 
-        {activeTab === "inbox" && (
-          <div className="flex flex-col h-screen bg-gray-100">
-            <div className="p-4">
-              <h1 className="text-2xl font-semibold">Inbox</h1>
+{activeTab === "inbox" && (
+  <div className="flex flex-col h-[80vh] bg-gray-100 rounded-lg shadow-sm">
+    <div className="p-3 bg-white border-b border-gray-200 rounded-t-lg">
+      <h1 className="text-xl font-semibold flex items-center space-x-2">
+      <i className="fas fa-envelope"></i>
+        <span>Inbox</span>
+      </h1>
+    </div>
+
+    <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-white">
+      {messages.map((msg) => (
+        <div key={msg.id} className="flex items-start space-x-3">
+          <img
+            src={msg.senderAvatar}
+            alt={msg.sender}
+            className="w-8 h-8 rounded-full border-2 border-gray-300"
+          />
+          <div className="flex flex-col space-y-1 flex-1">
+            <div className="flex items-center justify-between">
+              <span className="font-medium text-gray-700 text-sm">{msg.sender}</span>
+              <span className="text-xs text-gray-500">{msg.time}</span>
             </div>
-            <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-white">
-              {messages.map((msg) => (
-                <div key={msg.id} className="flex items-start space-x-4">
-                  <img src={msg.senderAvatar} alt={msg.sender} className="w-10 h-10 rounded-full border-2 border-gray-300" />
-                  <div className="flex flex-col space-y-1">
-                    <div className="flex items-center">
-                      <span className="font-semibold text-gray-700">{msg.sender}</span>
-                      <span className="text-xs text-gray-500 ml-2">{msg.time}</span>
-                    </div>
-                    <div className="bg-gray-100 p-3 rounded-lg shadow-md text-sm text-gray-700">{msg.message}</div>
-                  </div>
-                </div>
-              ))}
+            <div className="bg-gray-100 p-2 rounded-lg text-sm text-gray-700">
+              {msg.message}
             </div>
-            <div className="bg-gray-50 p-4 border-t border-gray-200">
-              <div className="flex items-center">
-                <input
-                  type="text"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  className="flex-1 p-3 border border-gray-300 rounded-lg"
-                  placeholder="Type your message..."
-                />
-                <button onClick={sendMessage} className="ml-3 bg-blue-500 text-white px-4 py-2 rounded-lg">
-                  Send
-                </button>
-              </div>
+            <div className="flex space-x-2 mt-1">
+              <button className="text-xs">
+                <i className="fas fa-reply"></i> Reply
+              </button>
+              <button className="text-xs">
+                <i className="fas fa-trash"></i> Delete
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      ))}
+    </div>
+
+    {/* Message Input Area */}
+    <div className="bg-gray-50 p-3 border-t border-gray-200 rounded-b-lg">
+      <div className="flex items-center">
+        {/* Input Field */}
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          placeholder="Type your message..."
+        />
+        {/* Send Button */}
+        <button
+          onClick={sendMessage}
+          className="ml-2 bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-1 text-sm"
+        >
+          <i className="fas fa-paper-plane"></i> {/* Send Icon */}
+          <span>Send</span>
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
         {activeTab === "profile" && (
           <div className="space-y-6 p-6 bg-gray-100 min-h-screen">
