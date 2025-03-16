@@ -64,7 +64,11 @@ function MainComponent() {
               className="flex items-center gap-2 cursor-pointer"
               onClick={() => user && (window.location.href = "/app")}
             >
-              <i className="fas fa-shield-alt text-5xl md:text-6xl text-gray-700"></i>
+              <img
+                src="https://i.imgur.com/yJVTPfj.png"
+                alt="logo"
+                className="w-8 h-9 object-cover"
+              />
               <div>
                 <h1 className="text-xl font-roboto font-medium">ArmorX</h1>
                 <p className="text-xs text-[#6F6F6F] font-roboto font-light">
@@ -93,10 +97,6 @@ function MainComponent() {
       <main className="flex items-center justify-center flex-1 relative px-4">
         <div className="text-center max-w-4xl mx-auto">
           <div className="mb-12">
-            <i className="fas fa-shield-alt text-1xl md:text-2xl text-gray-700"></i>
-            <p className="text-sm uppercase tracking-wider font-roboto font-light mb-3 text-[#6F6F6F]">
-              Security Management Reimagined
-            </p>
             <h1 className="text-4xl md:text-5xl font-roboto-mono font-medium mb-4">
               Stay Organized, Achieve More
             </h1>

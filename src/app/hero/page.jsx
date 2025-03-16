@@ -172,7 +172,7 @@ function MainComponent() {
   // Loading state
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse">
+      <div className="flex items-center justify-center h-screen animate-pulse">
         <div className="text-white text-2xl font-bold">Loading...</div>
       </div>
     );
@@ -182,13 +182,13 @@ function MainComponent() {
     <div className="flex flex-col h-screen font-roboto bg-gray-100">
       {/* Top Navigation */}
       <div className="fixed top-0 left-0 w-full bg-white shadow-lg z-50">
-        <div className="flex justify-between items-center p-3"> {/* Adjusted padding to p-3 */}
+        <div className="flex justify-between items-center p-3">
         {/* Logo and Brand Name */}
         <a href="/" className="flex items-center space-x-2">
           <img
-            src="https://raw.githubusercontent.com/TheOptimisticDev/images/refs/heads/main/IMG_1608.jpeg?token=GHSAT0AAAAAAC7OCUUOP654XZ5DKAAVEMA6Z6V44RQ"
+            src="https://i.imgur.com/yJVTPfj.png"
             alt="logo"
-            className="w-9 h-10 object-cover"
+            className="w-8 h-9 object-cover"
           />
           <h1 className="text-3xl font-bold">ArmorX</h1>
         </a>
@@ -285,24 +285,6 @@ function MainComponent() {
           </div>
         )}
 
-      {showPushToTalkPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center w-80">
-            <i className="fas fa-microphone text-4xl text-blue-600 mb-4"></i>
-            <h2 className="text-xl font-semibold mb-2">Recording Sent!</h2>
-            <p className="text-gray-600 mb-4">
-              Your audio recording has been sent to the control room.
-            </p>
-            <button
-              onClick={() => setShowPushToTalkPopup(false)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      )}
-
         {showPanicPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg text-center w-80">
@@ -322,17 +304,134 @@ function MainComponent() {
         )}
 
         {activeTab === "alerts" && (
-          <div className="space-y-4 p-4">
-            <h2 className="text-xl font-semibold">Security Alerts</h2>
-            {alerts.map((alert) => (
-              <div key={alert.id} className="bg-white p-4 rounded-lg shadow-sm">
-                <h3 className="font-medium">{alert.type}</h3>
-                <p className="text-sm text-gray-600">{alert.description}</p>
-                <span className="text-xs text-gray-500">{alert.time}</span>
+          <div className="space-y-6 p-6 bg-gray-50 rounded-lg">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-gray-800">Alerts</h2>
+              <div className="flex space-x-4">
+                <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-100">
+                <i className="fas fa-filter mr-2"></i>
+                  Filter
+                </button>
+                <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-100">
+                <i className="fas fa-sort mr-2"></i>
+                  Sort by Date
+                </button>
               </div>
-            ))}
+            </div>
+
+            <div className="space-y-4">
+              {[
+                {
+                  id: 1,
+                  type: "Suspicious Login Attempt",
+                  description: "A login attempt was detected from an unrecognized device in New York, USA.",
+                  time: "2 minutes ago",
+                  severity: "High",
+                },
+                {
+                  id: 2,
+                  type: "Password Change Detected",
+                  description: "Your account password was changed successfully.",
+                  time: "15 minutes ago",
+                  severity: "Medium",
+                },
+                {
+                  id: 3,
+                  type: "New Device Login",
+                  description: "A new device (iPhone 14) logged into your account.",
+                  time: "1 hour ago",
+                  severity: "Low",
+                },
+                {
+                  id: 4,
+                  type: "Unusual Activity Detected",
+                  description: "Unusual activity was detected in your account. Please verify your recent actions.",
+                  time: "3 hours ago",
+                  severity: "High",
+                },
+                {
+                  id: 5,
+                  type: "Two-Factor Authentication Enabled",
+                  description: "Two-factor authentication was enabled for your account.",
+                  time: "5 hours ago",
+                  severity: "Info",
+                },
+                {
+                  id: 6,
+                  type: "Failed Login Attempt",
+                  description: "A failed login attempt was detected from an unrecognized IP address.",
+                  time: "1 day ago",
+                  severity: "Medium",
+                },
+                {
+                  id: 7,
+                  type: "Account Recovery Initiated",
+                  description: "An account recovery process was initiated. Check your email for further instructions.",
+                  time: "2 days ago",
+                  severity: "High",
+                },
+                {
+                  id: 8,
+                  type: "Security Settings Updated",
+                  description: "Your security settings were updated successfully.",
+                  time: "3 days ago",
+                  severity: "Info",
+                },
+                {
+                  id: 9,
+                  type: "Phishing Attempt Detected",
+                  description: "A phishing attempt was detected and blocked. Do not click on suspicious links.",
+                  time: "4 days ago",
+                  severity: "High",
+                },
+                {
+                  id: 10,
+                  type: "Account Locked",
+                  description: "Your account was temporarily locked due to multiple failed login attempts.",
+                  time: "5 days ago",
+                  severity: "Critical",
+                },
+                ].map((alert) => (
+              <div
+                key={alert.id}
+                className="bg-white p-4 rounded-lg shadow-sm border-l-4"
+                style={{
+                borderLeftColor:
+                alert.severity === "Critical"
+                ? "red"
+                : alert.severity === "High"
+                ? "orange"
+                : alert.severity === "Medium"
+                ? "yellow"
+                : "blue",
+              }}
+              >
+              <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-medium text-gray-800">{alert.type}</h3>
+                      <p className="text-sm text-gray-600 mt-1">{alert.description}</p>
+                      <span className="text-xs text-gray-500 mt-2 block">{alert.time}</span>
+                  </div>
+                <div className="flex space-x-2">
+                  <button className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200">
+                    Dismiss
+                  </button>
+                  <button className="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-sm hover:bg-blue-200">
+                    View
+                  </button>
+              </div>
+            </div>
           </div>
-        )}
+        ))}
+      </div>
+
+      <div className="flex justify-center mt-6">
+        <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-100">
+          Load More
+        </button>
+      </div>
+    </div>
+  )}
 
         {activeTab === "inbox" && (
           <div className="flex flex-col h-screen bg-gray-100">
