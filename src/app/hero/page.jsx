@@ -304,9 +304,14 @@ function MainComponent() {
         )}
 
         {activeTab === "alerts" && (
-          <div className="space-y-6 p-6 bg-gray-50 rounded-lg">
+          <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-800">Alerts</h2>
+              <div className="p-3 bg-white border-b border-gray-200 rounded-t-lg">
+                <h1 className="text-xl font-semibold flex items-center text-gray-800 space-x-1">
+                  <i className="fas fa-exclamation-circle text-2xl"></i>
+                  <span>Alerts</span>
+                </h1>
+              </div>
               <div className="flex space-x-4">
                 <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-100">
                 <i className="fas fa-filter mr-2"></i>
@@ -314,7 +319,7 @@ function MainComponent() {
                 </button>
                 <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-100">
                 <i className="fas fa-sort mr-2"></i>
-                  Sort by Date
+                  Sort
                 </button>
               </div>
             </div>
@@ -436,8 +441,8 @@ function MainComponent() {
 {activeTab === "inbox" && (
   <div className="flex flex-col h-[80vh] bg-gray-100 rounded-lg shadow-sm">
     <div className="p-3 bg-white border-b border-gray-200 rounded-t-lg">
-      <h1 className="text-xl font-semibold flex items-center space-x-2">
-      <i className="fas fa-envelope"></i>
+      <h1 className="text-xl font-semibold flex items-center text-gray-800 space-x-2">
+      <i className="fas fa-envelope text-2xl"></i>
         <span>Inbox</span>
       </h1>
     </div>
@@ -495,28 +500,134 @@ function MainComponent() {
   </div>
 )}
 
-        {activeTab === "profile" && (
-          <div className="space-y-6 p-6 bg-gray-100 min-h-screen">
-            <h2 className="text-2xl font-semibold text-gray-800">Profile</h2>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center space-x-6">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH87TKQrWcl19xly2VNs0CjBzy8eaKNM-ZpA&s"
-                  alt="Profile"
-                  className="w-20 h-20 rounded-full border"
-                />
-                <div>
-                  <p className="text-lg font-semibold text-gray-900">John Doe</p>
-                  <p className="text-sm text-gray-600">admin@armorx.com</p>
-                  <p className="text-sm text-gray-500">Security Supervisor</p>
-                  <button className="mt-2 text-blue-600 hover:underline" onClick={() => alert("Edit profile")}>
-                    Edit Profile
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+{activeTab === "profile" && (
+  <div className="space-y-4 p-4 bg-gray-100 rounded-lg shadow-sm">
+    {/* Header */}
+    <h2 className="text-xl font-semibold text-gray-800 flex items-center space-x-2">
+      <i className="fas fa-user text-2xl"></i>
+      <span>Profile</span>
+    </h2>
+
+    {/* Profile Card */}
+    <div className="bg-white p-4 rounded-lg shadow-sm">
+      <div className="flex items-center space-x-4">
+        {/* Profile Picture */}
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH87TKQrWcl19xly2VNs0CjBzy8eaKNM-ZpA&s"
+          alt="Profile"
+          className="w-16 h-16 rounded-full border-2 border-gray-300"
+        />
+        <div className="flex-1">
+          {/* Name */}
+          <p className="text-lg font-semibold text-gray-900">John Doe</p>
+          {/* Email */}
+          <p className="text-sm text-gray-600 flex items-center space-x-1">
+            <i className="fas fa-envelope text-gray-400"></i> {/* Email Icon */}
+            <span>admin@armorx.com</span>
+          </p>
+          {/* Role */}
+          <p className="text-sm text-gray-500 flex items-center space-x-1">
+            <i className="fas fa-briefcase text-gray-400"></i> {/* Role Icon */}
+            <span>Security Supervisor</span>
+          </p>
+          {/* Edit Profile Button */}
+          <button
+            className="mt-2 text-blue-600 hover:text-blue-700 flex items-center space-x-1"
+            onClick={() => alert("Edit profile")}
+          >
+            <i className="fas fa-edit"></i> {/* Edit Icon */}
+            <span>Edit Profile</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Security Settings */}
+    <div className="bg-white p-4 rounded-lg shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-800 mb-3">Security Settings</h3>
+
+      {/* Two-Factor Authentication (2FA) */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center space-x-2">
+          <i className="fas fa-shield-alt"></i> {/* 2FA Icon */}
+          <span className="text-sm text-gray-700">Two-Factor Authentication</span>
+        </div>
+        <button
+          className="text-sm text-blue-600 hover:text-blue-700"
+          onClick={() => alert("Enable/Disable 2FA")}
+        >
+          Enable 2FA
+        </button>
+      </div>
+
+      {/* Password */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center space-x-2">
+          <i className="fas fa-key"></i> {/* Password Icon */}
+          <span className="text-sm text-gray-700">Password</span>
+        </div>
+        <button
+          className="text-sm text-blue-600 hover:text-blue-700"
+          onClick={() => alert("Change Password")}
+        >
+          Change Password
+        </button>
+      </div>
+
+      {/* Device Management */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <i className="fas fa-laptop"></i> {/* Device Icon */}
+          <span className="text-sm text-gray-700">Manage Devices</span>
+        </div>
+        <button
+          className="text-sm text-blue-600 hover:text-blue-700"
+          onClick={() => alert("Manage Devices")}
+        >
+          View Devices
+        </button>
+      </div>
+    </div>
+
+    {/* Activity Logs */}
+    <div className="bg-white p-4 rounded-lg shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-800 mb-3">Recent Activity</h3>
+      <ul className="text-sm text-gray-600 space-y-2">
+        <li className="flex items-center space-x-2">
+          <i className="fas fa-sign-in-alt text-gray-400"></i> {/* Login Icon */}
+          <span>Logged in from Chrome on Windows - 2 hours ago</span>
+        </li>
+        <li className="flex items-center space-x-2">
+          <i className="fas fa-lock text-gray-400"></i> {/* Lock Icon */}
+          <span>Changed password - 3 days ago</span>
+        </li>
+        <li className="flex items-center space-x-2">
+          <i className="fas fa-shield-alt text-gray-400"></i> {/* Security Icon */}
+          <span>Enabled Two-Factor Authentication - 1 week ago</span>
+        </li>
+      </ul>
+    </div>
+
+    {/* Security Tips */}
+    <div className="bg-white p-4 rounded-lg shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-800 mb-3">Security Tips</h3>
+      <ul className="text-sm text-gray-600 space-y-2">
+        <li className="flex items-center space-x-2">
+          <i className="fas fa-check-circle"></i> {/* Check Icon */}
+          <span>Use a strong, unique password for your account.</span>
+        </li>
+        <li className="flex items-center space-x-2">
+          <i className="fas fa-check-circle"></i> {/* Check Icon */}
+          <span>Enable Two-Factor Authentication for added security.</span>
+        </li>
+        <li className="flex items-center space-x-2">
+          <i className="fas fa-check-circle"></i> {/* Check Icon */}
+          <span>Regularly review your login activity and connected devices.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+)}
       </div>
 
       {/* Bottom Navigation */}
